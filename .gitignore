@@ -1,0 +1,7 @@
+```
+# Logs
+*.log
+
+# Server log file
+farah_sorry/server.log
+```
