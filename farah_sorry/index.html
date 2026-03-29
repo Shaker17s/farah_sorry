@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For My Farah ❤️</title>
+    <!-- Elegant Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Courier+Prime:wght@700&family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* =========================================
+           1. Base Settings & Variables
+           ========================================= */
+        :root {
+            --primary-glow: #ff1493;
+            --secondary-glow: #ff69b4;
+            --text-light: #fff0f5;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        body {
+            /* Animated Gradient Background */
+            background: linear-gradient(-45deg, #07051a, #1a0515, #0a001a, #14001a);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: var(--text-light);
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            touch-action: none;
+            perspective: 1000px;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Starry / Particles Background */
+        #particles-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            transition: transform 0.1s ease-out; /* For Parallax effect */
+            transform-origin: center center;
+        }
+
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1s ease-in-out, visibility 1s;
+        }
+
+        .screen.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* =========================================
+           2. Intro Screen
+           ========================================= */
+        .intro-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: #fff;
+            text-shadow: 0 0 20px var(--primary-glow);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .start-btn {
+            background: rgba(255, 20, 147, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--primary-glow);
+            color: white;
+            padding: 15px 50px;
+            font-size: 1.2rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            letter-spacing: 3px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(255, 20, 147, 0.4), inset 0 0 10px rgba(255, 20, 147, 0.4);
+            animation: btnPulse 2s infinite;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            z-index: 20;
+        }
+
+        .start-btn:hover {
+            transform: scale(1.05);
+            background: rgba(255, 20, 147, 0.3);
+            box-shadow: 0 0 30px var(--primary-glow), inset 0 0 20px var(--primary-glow);
+        }
+
+        @keyframes btnPulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 20, 147, 0.7), inset 0 0 10px rgba(255, 20, 147, 0.4); }
+            70% { box-shadow: 0 0 0 20px rgba(255, 20, 147, 0), inset 0 0 10px rgba(255, 20, 147, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 20, 147, 0), inset 0 0 10px rgba(255, 20, 147, 0); }
+        }
+
+        /* =========================================
+           3. Matrix Cinematic Screen
+           ========================================= */
+        #matrix-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.6;
+        }
+
+        .matrix-word {
+            position: absolute;
+            z-index: 2;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 4.5rem;
+            color: #fff;
+            text-shadow: 0 0 15px var(--primary-glow), 0 0 35px var(--secondary-glow);
+            opacity: 0;
+            transform: scale(0.8) translateY(20px);
+            display: none;
+            text-align: center;
+            width: 100%;
+            letter-spacing: 5px;
+        }
+
+        .matrix-word.show {
+            display: block;
+            animation: cinematicPop 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        @keyframes cinematicPop {
+            0% { opacity: 0; transform: scale(0.8) translateY(30px); filter: blur(10px); }
+            30% { opacity: 1; transform: scale(1.05) translateY(0); filter: blur(0px); }
+            80% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0px); }
+            100% { opacity: 0; transform: scale(1.1) translateY(-20px); filter: blur(5px); }
+        }
+
+        /* =========================================
+           4. 3D Swipeable Cards Screen
+           ========================================= */
+        .cards-container {
+            position: relative;
+            width: 90%;
+            max-width: 420px;
+            height: 650px;
+            perspective: 1200px;
+            transform-style: preserve-3d;
+        }
+
+        .swipe-card {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6), inset 0 0 20px rgba(255,255,255,0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s ease;
+            transform-origin: 50% 100%;
+            will-change: transform;
+            overflow: hidden; /* For the shine effect */
+        }
+
+        /* Dynamic Shine Effect on Cards */
+        .swipe-card::after {
+            content: '';
+            position: absolute;
+            top: 0; 
+            left: -150%; 
+            width: 50%; 
+            height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg);
+            animation: cardShine 5s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes cardShine {
+            0% { left: -150%; }
+            20% { left: 200%; }
+            100% { left: 200%; }
+        }
+
+        .card-message {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            text-align: center;
+            color: #fff;
+            margin-bottom: 30px;
+            line-height: 1.5;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.8);
+            z-index: 2;
+        }
+
+        .polaroids-wrapper {
+            display: flex;
+            gap: 15px;
+            width: 100%;
+            justify-content: center;
+            margin-bottom: 30px;
+            perspective: 800px;
+            z-index: 2;
+        }
+
+        .polaroid {
+            background: #fff;
+            padding: 10px 10px 30px 10px;
+            border-radius: 8px; /* Slightly softer edges */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            width: 46%;
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        /* Perfect Image Cropping */
+        .polaroid img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover; /* Ensures image fills the area without distortion */
+            object-position: center; /* Keeps the center of the image (usually the face) in view */
+            border-radius: 4px;
+            background-color: #fce4ec; /* Soft placeholder background */
+        }
+
+        .polaroid:nth-child(1) { transform: rotate(-5deg) translateZ(20px); }
+        .polaroid:nth-child(2) { transform: rotate(5deg) translateZ(20px); }
+
+        .swipe-card:hover .polaroid:nth-child(1) { transform: rotate(-8deg) scale(1.05) translateZ(30px); }
+        .swipe-card:hover .polaroid:nth-child(2) { transform: rotate(8deg) scale(1.05) translateZ(30px); }
+
+        .swipe-instruction {
+            position: absolute;
+            bottom: 20px;
+            font-size: 1rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.8);
+            animation: bounceUp 1.5s infinite;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+            z-index: 2;
+        }
+
+        .swipe-instruction::before {
+            content: '↑';
+            font-size: 1.8rem;
+            color: var(--primary-glow);
+            text-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        @keyframes bounceUp {
+            0%, 100% { transform: translateY(0); opacity: 0.5; }
+            50% { transform: translateY(-15px); opacity: 1; }
+        }
+
+        .swipe-card.dragging {
+            transition: none;
+            cursor: grabbing;
+        }
+
+        .swipe-card.thrown {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* =========================================
+           5. Grand Finale Screen (Explosive Heart)
+           ========================================= */
+        #heart-finale-container {
+            position: relative;
+            z-index: 5;
+            transition: transform 0.5s ease;
+        }
+
+        .heartbeat-pulse {
+            animation: heartPulse 1.5s infinite;
+        }
+
+        @keyframes heartPulse {
+            0% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255, 20, 147, 0.5)); }
+            15% { transform: scale(1.08); filter: drop-shadow(0 0 30px rgba(255, 20, 147, 0.9)); }
+            30% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255, 20, 147, 0.5)); }
+            45% { transform: scale(1.08); filter: drop-shadow(0 0 30px rgba(255, 20, 147, 0.9)); }
+            100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255, 20, 147, 0.5)); }
+        }
+
+        /* Perfect Image Cropping for the Finale Pieces */
+        .heart-piece {
+            position: absolute;
+            width: var(--piece-size);
+            height: var(--piece-size);
+            object-fit: cover; /* Keeps aspect ratio perfect */
+            object-position: center; /* Centers the image */
+            border-radius: 6px; /* Slightly more rounded for aesthetics */
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.6);
+            opacity: 0;
+            transform: translate(var(--start-x), var(--start-y)) scale(0) rotate(var(--start-rot));
+            transition: transform 2.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 2s ease, border-color 1s;
+            background-color: #fce4ec;
+        }
+
+        .heart-piece.assemble {
+            opacity: 1;
+            transform: translate(0, 0) scale(1) rotate(0deg);
+        }
+
+        .finale-text {
+            position: absolute;
+            bottom: -100px;
+            width: 100%;
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-style: italic;
+            color: #fff;
+            text-shadow: 0 0 10px var(--primary-glow), 0 0 20px var(--primary-glow), 0 0 40px var(--primary-glow);
+            opacity: 0;
+            transform: translateX(-50%) translateY(20px);
+            transition: opacity 2s ease 1s, transform 2s ease 1s;
+            white-space: nowrap;
+            left: 50%;
+        }
+
+        .finale-text.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Burst Particles */
+        .burst-particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--primary-glow);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary-glow);
+            pointer-events: none;
+            z-index: 4;
+            opacity: 0;
+        }
+
+        @media (max-width: 600px) {
+            .cards-container { height: 550px; }
+            .card-message { font-size: 1.4rem; margin-bottom: 20px; }
+            .polaroid img { height: 140px; }
+            .matrix-word { font-size: 3rem; }
+            .finale-text { font-size: 2.5rem; bottom: -80px;}
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Audio Element (Romantic Background Music) -->
+    <!-- You can replace the src with any direct MP3 link -->
+    <audio id="bg-music" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-piano-111178.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Starry Particles Background -->
+    <canvas id="particles-bg"></canvas>
+
+    <!-- 1. Intro Screen -->
+    <div id="screen-intro" class="screen active">
+        <h1 class="intro-title">A Message For You</h1>
+        <button class="start-btn" onclick="startExperience()">Open</button>
+    </div>
+
+    <!-- 2. Cinematic Matrix Screen -->
+    <div id="screen-matrix" class="screen">
+        <canvas id="matrix-canvas"></canvas>
+        <div id="matrix-word-container" class="matrix-word"></div>
+    </div>
+
+    <!-- 3. Cards Screen -->
+    <div id="screen-cards" class="screen">
+        <div class="cards-container" id="cards-container">
+            <!-- Cards generated by JS -->
+        </div>
+    </div>
+
+    <!-- 4. Finale Screen -->
+    <div id="screen-finale" class="screen">
+        <div id="heart-finale-container">
+            <!-- 20 Images appended by JS -->
+            <div class="finale-text" id="finale-text">I Love You, Farah ❤️</div>
+        </div>
+    </div>
+
+    <script>
+        // =========================================
+        // Configuration & Images
+        // =========================================
+        // UPDATED: Now looks for .jpeg files instead of .jpg
+        const getImgSrc = (num) => `farah_${num}.jpeg`;
+        const placeholderImg = "https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=300&q=80";
+
+        const storyCards = [
+            { text: "I never intended to hurt you, my love...", imgs: [1, 2] },
+            { text: "I am truly sorry from the bottom of my heart.", imgs: [3, 4] },
+            { text: "Every time I look at your beautiful face...", imgs: [5, 6] },
+            { text: "...it reminds me to be the best version of myself for you.", imgs: [7, 8] }
+        ];
+
+        // =========================================
+        // Particles Background (Floating Glowing Orbs)
+        // =========================================
+        const bgCanvas = document.getElementById('particles-bg');
+        const bgCtx = bgCanvas.getContext('2d');
+        let particles = [];
+
+        function resizeBg() {
+            // Give slightly larger canvas for parallax effect without revealing edges
+            bgCanvas.width = window.innerWidth * 1.1;
+            bgCanvas.height = window.innerHeight * 1.1;
+            bgCanvas.style.left = `-${window.innerWidth * 0.05}px`;
+            bgCanvas.style.top = `-${window.innerHeight * 0.05}px`;
+        }
+        window.addEventListener('resize', resizeBg);
+        resizeBg();
+
+        class Particle {
+            constructor() {
+                this.reset();
+                this.y = Math.random() * bgCanvas.height; 
+            }
+            reset() {
+                this.x = Math.random() * bgCanvas.width;
+                this.y = bgCanvas.height + Math.random() * 100;
+                this.size = Math.random() * 3 + 1;
+                this.speedY = Math.random() * 0.8 + 0.2;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.alpha = Math.random() * 0.6 + 0.2;
+            }
+            update() {
+                this.y -= this.speedY;
+                this.x += this.speedX;
+                if (this.y < -10) this.reset();
+            }
+            draw() {
+                bgCtx.fillStyle = `rgba(255, 105, 180, ${this.alpha})`;
+                bgCtx.shadowBlur = 10;
+                bgCtx.shadowColor = "#ff1493";
+                bgCtx.beginPath();
+                bgCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                bgCtx.fill();
+                bgCtx.shadowBlur = 0; 
+            }
+        }
+        for (let i = 0; i < 70; i++) particles.push(new Particle());
+
+        function animateBg() {
+            bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateBg);
+        }
+        animateBg();
+
+        // Parallax Effect for Background
+        document.addEventListener('mousemove', (e) => {
+            const x = (window.innerWidth / 2 - e.pageX) / 40;
+            const y = (window.innerHeight / 2 - e.pageY) / 40;
+            bgCanvas.style.transform = `translate(${x}px, ${y}px)`;
+        });
+
+        // =========================================
+        // Screen Management & Audio
+        // =========================================
+        function showScreen(id) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        function startExperience() {
+            const bgMusic = document.getElementById('bg-music');
+            bgMusic.volume = 0.5;
+            bgMusic.play().catch(e => console.log("Audio play prevented by browser"));
+
+            showScreen('screen-matrix');
+            startMatrixEffect();
+            setTimeout(runTextSequence, 800);
+        }
+
+        // =========================================
+        // Matrix Sequence (Cinematic)
+        // =========================================
+        const mCanvas = document.getElementById('matrix-canvas');
+        const mCtx = mCanvas.getContext('2d');
+        let matrixInterval;
+
+        function startMatrixEffect() {
+            mCanvas.width = window.innerWidth;
+            mCanvas.height = window.innerHeight;
+            const fontSize = 16;
+            const columns = Math.floor(mCanvas.width / fontSize);
+            const drops = Array(columns).fill(1);
+            const chars = "FARAHLOVE10101".split("");
+
+            matrixInterval = setInterval(() => {
+                mCtx.fillStyle = "rgba(7, 5, 26, 0.1)";
+                mCtx.fillRect(0, 0, mCanvas.width, mCanvas.height);
+                mCtx.fillStyle = "rgba(255, 20, 147, 0.8)";
+                mCtx.font = fontSize + "px 'Courier Prime'";
+
+                for (let i = 0; i < drops.length; i++) {
+                    const text = chars[Math.floor(Math.random() * chars.length)];
+                    mCtx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    if (drops[i] * fontSize > mCanvas.height && Math.random() > 0.975) drops[i] = 0;
+                    drops[i]++;
+                }
+            }, 35);
+        }
+
+        const sequenceWords = ["3", "2", "1", "I'M", "TRULY", "SORRY", "MY", "LOVE,", "FARAH", "❤️"];
+        
+        function runTextSequence() {
+            const wordContainer = document.getElementById('matrix-word-container');
+            let index = 0;
+
+            function nextWord() {
+                if (index < sequenceWords.length) {
+                    wordContainer.innerText = sequenceWords[index];
+                    wordContainer.classList.remove('show');
+                    void wordContainer.offsetWidth; // Trigger reflow
+                    wordContainer.classList.add('show');
+                    index++;
+                    setTimeout(nextWord, 1500); 
+                } else {
+                    setTimeout(() => {
+                        clearInterval(matrixInterval);
+                        initCards();
+                        showScreen('screen-cards');
+                    }, 500);
+                }
+            }
+            nextWord();
+        }
+
+        // =========================================
+        // Swipeable Cards (Advanced 3D Tilt)
+        // =========================================
+        let currentCardIndex = 0;
+        
+        function initCards() {
+            const container = document.getElementById('cards-container');
+            for (let i = storyCards.length - 1; i >= 0; i--) {
+                const data = storyCards[i];
+                const card = document.createElement('div');
+                card.className = 'swipe-card';
+                
+                const zIndex = storyCards.length - i;
+                const scale = 1 - (i * 0.04);
+                const translateY = i * 20;
+                
+                card.style.zIndex = zIndex;
+                card.style.transform = `scale(${scale}) translateY(${translateY}px)`;
+                card.dataset.index = i;
+                card.dataset.baseScale = scale;
+                card.dataset.baseTranslateY = translateY;
+
+                card.innerHTML = `
+                    <div class="card-message">${data.text}</div>
+                    <div class="polaroids-wrapper">
+                        <div class="polaroid">
+                            <img src="${getImgSrc(data.imgs[0])}" onerror="this.src='${placeholderImg}'" alt="Farah">
+                        </div>
+                        <div class="polaroid">
+                            <img src="${getImgSrc(data.imgs[1])}" onerror="this.src='${placeholderImg}'" alt="Farah">
+                        </div>
+                    </div>
+                    ${i === 0 ? `<div class="swipe-instruction">Swipe Up</div>` : ''}
+                `;
+
+                setupDrag(card);
+                container.appendChild(card);
+            }
+            updateCardsVisuals();
+        }
+
+        function setupDrag(card) {
+            let startY = 0, startX = 0;
+            let currentY = 0, currentX = 0;
+            let isDragging = false;
+
+            const onStart = (e) => {
+                if (parseInt(card.dataset.index) !== currentCardIndex) return;
+                isDragging = true;
+                startY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+                startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+                card.classList.add('dragging');
+            };
+
+            const onMove = (e) => {
+                if (!isDragging) return;
+                const y = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+                const x = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+                currentY = y - startY;
+                currentX = x - startX;
+                
+                if (currentY > 20) currentY = 20; 
+                
+                const rotateZ = currentX * 0.05;
+                const rotateX = currentY * -0.05; 
+                const rotateY = currentX * 0.05;
+
+                card.style.transform = `translate(${currentX}px, ${currentY}px) rotateZ(${rotateZ}deg) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+            };
+
+            const onEnd = () => {
+                if (!isDragging) return;
+                isDragging = false;
+                card.classList.remove('dragging');
+
+                if (currentY < -150) {
+                    const throwX = currentX > 0 ? 500 : -500;
+                    card.style.transform = `translate(${throwX}px, -1000px) rotate(${currentX * 0.2}deg)`;
+                    card.classList.add('thrown');
+                    currentCardIndex++;
+                    
+                    if (currentCardIndex >= storyCards.length) {
+                        setTimeout(initFinale, 600);
+                    } else {
+                        updateCardsVisuals();
+                    }
+                } else {
+                    const baseScale = card.dataset.baseScale;
+                    const baseY = card.dataset.baseTranslateY;
+                    card.style.transform = `scale(${baseScale}) translateY(${baseY}px) rotateX(0) rotateY(0) rotateZ(0)`;
+                }
+                currentY = 0; currentX = 0;
+            };
+
+            card.addEventListener('mousedown', onStart);
+            document.addEventListener('mousemove', onMove);
+            document.addEventListener('mouseup', onEnd);
+
+            card.addEventListener('touchstart', onStart);
+            document.addEventListener('touchmove', onMove, { passive: false });
+            document.addEventListener('touchend', onEnd);
+        }
+
+        function updateCardsVisuals() {
+            const cards = document.querySelectorAll('.swipe-card:not(.thrown)');
+            Array.from(cards).reverse().forEach((card, index) => {
+                const scale = 1 - (index * 0.04);
+                const translateY = index * 20;
+                card.style.transform = `scale(${scale}) translateY(${translateY}px)`;
+                card.dataset.baseScale = scale;
+                card.dataset.baseTranslateY = translateY;
+                card.style.boxShadow = `0 ${20 - index*2}px ${50 - index*5}px rgba(0,0,0,0.6)`;
+            });
+        }
+
+        // =========================================
+        // The Grand Finale (Heart Assembly & Burst)
+        // =========================================
+        function createBurst() {
+            const container = document.getElementById('screen-finale');
+            const colors = ['#ff1493', '#ff69b4', '#fff0f5', '#ff0055'];
+            for(let i=0; i<80; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'burst-particle';
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                
+                particle.style.left = '50%';
+                particle.style.top = '50%';
+                
+                container.appendChild(particle);
+
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = 100 + Math.random() * 200;
+                const tx = Math.cos(angle) * velocity;
+                const ty = Math.sin(angle) * velocity;
+                
+                particle.animate([
+                    { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
+                    { transform: `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(0)`, opacity: 0 }
+                ], {
+                    duration: 1000 + Math.random() * 1000,
+                    easing: 'cubic-bezier(0.25, 1, 0.5, 1)'
+                }).onfinish = () => particle.remove();
+            }
+        }
+
+        function initFinale() {
+            showScreen('screen-finale');
+            const container = document.getElementById('heart-finale-container');
+            
+            const heartMap = [
+                0, 1, 1, 0, 1, 1, 0, 
+                1, 1, 1, 1, 1, 1, 1, 
+                0, 1, 1, 1, 1, 1, 0, 
+                0, 0, 1, 1, 1, 0, 0, 
+                0, 0, 0, 1, 0, 0, 0  
+            ];
+
+            const isMobile = window.innerWidth < 600;
+            const pieceSize = isMobile ? 42 : 58;
+            const gap = 5;
+            
+            container.style.width = `${7 * pieceSize + 6 * gap}px`;
+            container.style.height = `${5 * pieceSize + 4 * gap}px`;
+
+            let imgCount = 1;
+
+            for (let row = 0; row < 5; row++) {
+                for (let col = 0; col < 7; col++) {
+                    const index = row * 7 + col;
+                    if (heartMap[index] === 1) {
+                        const img = document.createElement('img');
+                        img.src = getImgSrc(imgCount);
+                        img.onerror = function() { this.src = placeholderImg; };
+                        img.className = 'heart-piece';
+                        
+                        img.style.setProperty('--piece-size', `${pieceSize}px`);
+                        const finalLeft = col * (pieceSize + gap);
+                        const finalTop = row * (pieceSize + gap);
+                        img.style.left = `${finalLeft}px`;
+                        img.style.top = `${finalTop}px`;
+
+                        const startX = (Math.random() - 0.5) * 2500; 
+                        const startY = (Math.random() - 0.5) * 2500;
+                        const startRot = (Math.random() - 0.5) * 1080; 
+                        
+                        img.style.setProperty('--start-x', `${startX}px`);
+                        img.style.setProperty('--start-y', `${startY}px`);
+                        img.style.setProperty('--start-rot', `${startRot}deg`);
+
+                        container.appendChild(img);
+                        imgCount++;
+                    }
+                }
+            }
+
+            setTimeout(() => {
+                const pieces = document.querySelectorAll('.heart-piece');
+                pieces.forEach((piece, i) => {
+                    setTimeout(() => {
+                        piece.classList.add('assemble');
+                    }, i * 80); 
+                });
+
+                const assemblyTime = pieces.length * 80 + 2500;
+                
+                setTimeout(() => {
+                    pieces.forEach(p => p.style.borderColor = '#ff1493');
+                    container.classList.add('heartbeat-pulse');
+                    createBurst();
+                    document.getElementById('finale-text').classList.add('show');
+                }, assemblyTime);
+
+            }, 500);
+        }
+    </script>
+</body>
+</html>
